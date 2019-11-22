@@ -1,0 +1,10 @@
+insert into clientes (nombre, apellido, email, create_at, foto) values ('Jesus', 'Melendez', 'yisusxp90@gmail.com', '2019-12-01', 'nouser.png');
+insert into clientes (nombre, apellido, email, create_at, foto) values ('Mariangel', 'Melendez', 'tronci@gmail.com', '2019-12-01', 'nouser.png');
+insert into clientes (nombre, apellido, email, create_at, foto) values ('Sebas', 'Melendez', 'sebas@gmail.com', '2019-01-01', 'nouser.png');
+insert into clientes (nombre, apellido, email, create_at, foto) values ('Norexi', 'Melendez', 'norexi@gmail.com', '2019-02-01', 'nouser. png');
+insert into clientes (nombre, apellido, email, create_at, foto) values ('Wilmer', 'Melendez', 'wilmer@gmail.com', '2019-03-01', 'nouser. png');
+insert into clientes (nombre, apellido, email, create_at, foto) values ('Edgar', 'Melendez', 'edgar@gmail.com', '2019-04-01', 'nouser. png');
+insert into clientes (nombre, apellido, email, create_at, foto) values ('Rosario', 'Reyes', 'rosario@gmail.com', '2019-05-01', 'nouser. png');
+insert into clientes (nombre, apellido, email, create_at, foto) values ('Reinaldo', 'Vargas', 'reinaldo@gmail.com', '2019-06-01', 'nouser. png');
+insert into clientes (nombre, apellido, email, create_at, foto) values ('Alexander', 'Vargas', 'alexander@gmail.com', '2019-07-01', 'nouser. png');
+insert into clientes (nombre, apellido, email, create_at, foto) values ('Ricardo', 'Vargas', 'ricardo@gmail.com', '2019-08-01', 'nouser. png');
