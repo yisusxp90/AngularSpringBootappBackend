@@ -1,7 +1,9 @@
 package com.yisusxp.spring.backend.api.controller;
 
 import com.yisusxp.spring.backend.api.model.Cliente;
+import com.yisusxp.spring.backend.api.model.Region;
 import com.yisusxp.spring.backend.api.service.IClienteService;
+import com.yisusxp.spring.backend.api.service.IRegionService;
 import com.yisusxp.spring.backend.api.service.IUploadFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,6 +36,9 @@ public class ClienteRestController {
     @Autowired
     IUploadFileService iUploadFileService;
 
+    @Autowired
+    IRegionService iRegionService;
+
     @GetMapping("/listar")
     public List<Cliente> listadoClientes() {
         return iClienteService.findAll();
@@ -43,6 +49,7 @@ public class ClienteRestController {
         return iClienteService.findAll(PageRequest.of(page, 4));
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/listar/{id}")
     public ResponseEntity<?> buscarCliente(@PathVariable Long id) {
 
@@ -63,8 +70,9 @@ public class ClienteRestController {
         return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
 
-    @PostMapping("/crear")
+    @PostMapping("/clientes/crear")
     @ResponseStatus(HttpStatus.CREATED)
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> crearCliente(@Valid @RequestBody Cliente cliente, BindingResult result) {
         Cliente cl;
         Map<String, Object> response = new HashMap<>();
@@ -88,7 +96,8 @@ public class ClienteRestController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/borrar/{id}")
+    @DeleteMapping("/clientes/borrar/{id}")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> borrarCliente(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
         Cliente clienteBD = null;
@@ -109,8 +118,9 @@ public class ClienteRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("/clientes/actualizar/{id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> actualizarCliente(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
         Cliente clienteBD;
@@ -134,6 +144,7 @@ public class ClienteRestController {
             clienteBD.setApellido(cliente.getApellido());
             clienteBD.setEmail(cliente.getEmail());
             clienteBD.setCreateAt(cliente.getCreateAt());
+            clienteBD.setRegion(cliente.getRegion());
             clienteActualizado = iClienteService.save(clienteBD);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error Actualizando cliente");
@@ -146,6 +157,7 @@ public class ClienteRestController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/clientes/upload")
     public ResponseEntity<?> subirArchivo(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
         Map<String, Object> response = new HashMap<>();
@@ -189,5 +201,11 @@ public class ClienteRestController {
         HttpHeaders cabezera = new HttpHeaders();
         cabezera.add(HttpHeaders.CONTENT_DISPOSITION, "Attachment; filename=\""+ recurso.getFilename() + "\"");
         return new ResponseEntity<>(recurso, cabezera, HttpStatus.OK);
+    }
+
+    @Secured({"ROLE_ADMIN"})
+    @GetMapping("/clientes/regiones")
+    public List<Region> listarRegiones(){
+        return iRegionService.findAllRegiones();
     }
 }

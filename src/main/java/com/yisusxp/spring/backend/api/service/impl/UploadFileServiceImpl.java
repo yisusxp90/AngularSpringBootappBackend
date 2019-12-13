@@ -47,7 +47,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
 
     @Override
     public boolean eliminar(String foto) {
-        if (foto != null && foto.length() > 0) {
+        if (foto != null && foto.length() > 0 && !foto.equals("nouser.jpg")) {
             Path rutaFotoAnterior = getPath(foto);
             File archivoFotoAnterior = rutaFotoAnterior.toFile();
             if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {

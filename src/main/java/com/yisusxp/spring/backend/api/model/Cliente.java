@@ -1,5 +1,7 @@
 package com.yisusxp.spring.backend.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -33,6 +35,19 @@ public class Cliente implements Serializable {
     private Date createAt;
     @Column
     public String foto;
+    @NotNull(message = "No debe ser vacio, favor ingrese el campo")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Region region;
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
 
     public String getFoto() {
         return foto;
