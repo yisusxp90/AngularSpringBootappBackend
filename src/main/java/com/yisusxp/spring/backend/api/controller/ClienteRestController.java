@@ -49,7 +49,7 @@ public class ClienteRestController {
         return iClienteService.findAll(PageRequest.of(page, 4));
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    //@Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/listar/{id}")
     public ResponseEntity<?> buscarCliente(@PathVariable Long id) {
 
