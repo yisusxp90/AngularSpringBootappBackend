@@ -19,4 +19,10 @@ public class FacturaRestController {
     public Factura show(@PathVariable Long id){
         return iFacturaService.findById(id);
     }
+
+    @DeleteMapping("/facturas/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        iFacturaService.delete(id);
+    }
 }
