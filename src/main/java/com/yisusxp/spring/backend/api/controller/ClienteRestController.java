@@ -20,9 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.*;
 import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -49,7 +47,7 @@ public class ClienteRestController {
         return iClienteService.findAll(PageRequest.of(page, 4));
     }
 
-    //@Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/listar/{id}")
     public ResponseEntity<?> buscarCliente(@PathVariable Long id) {
 
@@ -139,6 +137,11 @@ public class ClienteRestController {
             if (clienteBD == null) {
                 response.put("mensaje", "El cliente con ID: " + id + " no existe en la BD");
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            }
+            if(cliente.equals(clienteBD)){
+                response.put("mensaje", "Error Actualizando cliente");
+                response.put("errors", new ArrayList<>(Arrays.asList("No existen cambios en el Cliente")));
+                return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
             clienteBD.setNombre(cliente.getNombre());
             clienteBD.setApellido(cliente.getApellido());

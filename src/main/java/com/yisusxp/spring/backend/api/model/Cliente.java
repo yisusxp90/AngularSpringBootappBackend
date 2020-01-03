@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "clientes")
@@ -42,7 +43,7 @@ public class Cliente implements Serializable {
     @JoinColumn(name = "region_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Region region;
-    @JsonIgnoreProperties({"cliente", "hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties(value={"cliente", "hibernateLazyInitializer", "handler"}, allowSetters = true)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)
     List<Factura> facturas;
 
@@ -117,5 +118,22 @@ public class Cliente implements Serializable {
 
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cliente)) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(getNombre(), cliente.getNombre()) &&
+                Objects.equals(getApellido(), cliente.getApellido()) &&
+                Objects.equals(getEmail(), cliente.getEmail()) &&
+                Objects.equals(getCreateAt(), cliente.getCreateAt()) &&
+                Objects.equals(getRegion().getId(), cliente.getRegion().getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getNombre(), getApellido(), getEmail(), getCreateAt(), getRegion());
     }
 }

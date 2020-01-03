@@ -29,7 +29,7 @@ public class Factura implements Serializable {
     @JsonIgnoreProperties({"facturas", "hibernateLazyInitializer", "handler"}) //ignoramos la rlacion inversa para evitar looks infinitos
     private  Cliente cliente;
     // cascade all si borramos una factura se borran todos los items dependientes
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnoreProperties(value={"hibernateLazyInitializer", "handler"}, allowSetters = true)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "factura_id") // se coloca ya que solo la crea automatica cuando es manyToOne
     @NotNull(message = "No debe ser vacio, favor ingrese el campo")

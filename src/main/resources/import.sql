@@ -8,7 +8,7 @@ insert into regiones (id, nombre) values (7, 'Oceania');
 insert into regiones (id, nombre) values (8, 'Antartida');
 
 insert into clientes (region_id, nombre, apellido, email, create_at, foto) values (1, 'Jesus', 'Melendez', 'yisusxp90@gmail.com', '2019-12-01', 'nouser.jpg');
-insert into clientes (region_id, nombre, apellido, email, create_at, foto) values (1, 'Yuz', 'Porras', 'yuzmap@gmail.com', '2019-12-01', 'nouser.jpg');
+insert into clientes (region_id, nombre, apellido, email, create_at, foto) values (1, 'Yuzmary', 'Porras', 'yuzmap@gmail.com', '2019-12-01', 'nouser.jpg');
 insert into clientes (region_id, nombre, apellido, email, create_at, foto) values (1, 'Mariangel', 'Melendez', 'tronci@gmail.com', '2019-12-01', 'nouser.jpg');
 insert into clientes (region_id, nombre, apellido, email, create_at, foto) values (3, 'Sebas', 'Melendez', 'sebas@gmail.com', '2019-01-01', 'nouser.jpg');
 insert into clientes (region_id, nombre, apellido, email, create_at, foto) values (3, 'Norexi', 'Melendez', 'norexi@gmail.com', '2019-02-01', 'nouser.jpg');

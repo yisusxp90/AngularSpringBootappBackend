@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,24 +31,28 @@ public class FacturaRestController {
 
     @GetMapping("/facturas/{id}")
     @ResponseStatus(code = HttpStatus.OK)
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public Factura show(@PathVariable Long id){
         return iFacturaService.findById(id);
     }
 
     @DeleteMapping("/facturas/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @Secured({"ROLE_ADMIN"})
     public void delete(@PathVariable Long id) {
         iFacturaService.delete(id);
     }
 
     @GetMapping("/facturas/filtrar-productos/{termino}")
     @ResponseStatus(code = HttpStatus.OK)
+    @Secured({"ROLE_ADMIN"})
     public List<Producto> getProductos(@PathVariable String termino){
         return iProductoService.findByNombreContainingIgnoreCase(termino);
     }
 
     @PostMapping("/facturas/crear")
     @ResponseStatus(HttpStatus.CREATED)
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> crearFactura(@Valid @RequestBody Factura factura, BindingResult result) {
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
