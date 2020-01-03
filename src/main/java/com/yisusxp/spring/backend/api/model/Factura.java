@@ -3,6 +3,8 @@ package com.yisusxp.spring.backend.api.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +17,8 @@ public class Factura implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(nullable = false)
+    @NotEmpty(message = "No puede ser vacio, favor ingrese el campo")
     private String descripcion;
     @Column
     private String observacion;
@@ -29,6 +32,8 @@ public class Factura implements Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "factura_id") // se coloca ya que solo la crea automatica cuando es manyToOne
+    @NotNull(message = "No debe ser vacio, favor ingrese el campo")
+    @NotEmpty(message = "No debe ser vacio, favor ingrese el campo")
     private List<ItemFactura> items;
 
     public Factura() {
