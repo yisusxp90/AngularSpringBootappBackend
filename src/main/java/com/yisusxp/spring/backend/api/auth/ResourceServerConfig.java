@@ -21,7 +21,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/listar", "/api/listar/page/**", "/api/uploads/img/**", "/images/**").permitAll()
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/listar", "/api/listar/page/**", "/api/uploads/img/**", "/images/**", "/api/clientes/filtrar-clientes/**").permitAll()
                 /*.antMatchers("/api/listar/{id}").permitAll()
                 .antMatchers("/api/facturas/**").permitAll()
                  coemntamos esto y lo hacemos con spring security anotations

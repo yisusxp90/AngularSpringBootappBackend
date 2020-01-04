@@ -46,4 +46,9 @@ public class ClienteServiceImpl implements IClienteService {
     public Cliente findById(Long id) {
         return iClienteRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public List<Cliente> findByNombreContainingIgnoreCase(String termino) {
+        return iClienteRepository.findByNombreContainingIgnoreCase(termino);
+    }
 }

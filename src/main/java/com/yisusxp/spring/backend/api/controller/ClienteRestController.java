@@ -42,6 +42,13 @@ public class ClienteRestController {
         return iClienteService.findAll();
     }
 
+    @GetMapping("/clientes/filtrar-clientes/{termino}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public List<Cliente> getClientes(@PathVariable String termino){
+        return iClienteService.findByNombreContainingIgnoreCase(termino);
+    }
+
+
     @GetMapping("/listar/page/{page}")
     public Page<Cliente> listadoClientesPAginado(@PathVariable Integer page) {
         return iClienteService.findAll(PageRequest.of(page, 4));
