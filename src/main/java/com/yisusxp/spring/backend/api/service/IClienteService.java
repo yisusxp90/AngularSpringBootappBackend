@@ -18,5 +18,5 @@ public interface IClienteService {
 
     public Cliente findById(Long id);
 
-    List<Cliente> findByNombreContainingIgnoreCase(String termino);
+    List<Cliente> findByDniContainingIgnoreCase(String termino);
 }

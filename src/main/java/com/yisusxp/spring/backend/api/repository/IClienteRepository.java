@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface IClienteRepository extends JpaRepository<Cliente, Long> {
 
-    public List<Cliente> findByNombreContainingIgnoreCase(String termino);
+    public List<Cliente> findByDniContainingIgnoreCase(String termino);
 }

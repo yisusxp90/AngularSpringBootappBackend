@@ -21,6 +21,10 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
+    @NotEmpty(message = "No puede ser vacio, favor ingrese el campo")
+    @Size(min = 4, max = 12, message = "debe tener una longitud entre 4 y 12 caracteres")
+    private String dni;
     @Column(nullable = false)
     @NotEmpty(message = "No puede ser vacio, favor ingrese el campo")
     @Size(min = 4, max = 12, message = "debe tener una longitud entre 4 y 12 caracteres")
@@ -88,7 +92,15 @@ public class Cliente implements Serializable {
         this.id = id;
     }
 
-    public String getNombre() {
+    public String getDni() {
+		return dni;
+	}
+
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+
+	public String getNombre() {
         return nombre;
     }
 

@@ -48,7 +48,7 @@ public class ClienteServiceImpl implements IClienteService {
     }
 
     @Override
-    public List<Cliente> findByNombreContainingIgnoreCase(String termino) {
-        return iClienteRepository.findByNombreContainingIgnoreCase(termino);
+    public List<Cliente> findByDniContainingIgnoreCase(String termino) {
+        return iClienteRepository.findByDniContainingIgnoreCase(termino);
     }
 }

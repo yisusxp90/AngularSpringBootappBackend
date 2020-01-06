@@ -45,7 +45,7 @@ public class ClienteRestController {
     @GetMapping("/clientes/filtrar-clientes/{termino}")
     @ResponseStatus(code = HttpStatus.OK)
     public List<Cliente> getClientes(@PathVariable String termino){
-        return iClienteService.findByNombreContainingIgnoreCase(termino);
+        return iClienteService.findByDniContainingIgnoreCase(termino);
     }
 
 
@@ -150,6 +150,7 @@ public class ClienteRestController {
                 response.put("errors", new ArrayList<>(Arrays.asList("No existen cambios en el Cliente")));
                 return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
             }
+            clienteBD.setDni(cliente.getDni());
             clienteBD.setNombre(cliente.getNombre());
             clienteBD.setApellido(cliente.getApellido());
             clienteBD.setEmail(cliente.getEmail());
@@ -208,9 +209,9 @@ public class ClienteRestController {
             e.printStackTrace();
         }
 
-        HttpHeaders cabezera = new HttpHeaders();
-        cabezera.add(HttpHeaders.CONTENT_DISPOSITION, "Attachment; filename=\""+ recurso.getFilename() + "\"");
-        return new ResponseEntity<>(recurso, cabezera, HttpStatus.OK);
+        HttpHeaders cabecera = new HttpHeaders();
+        cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "Attachment; filename=\""+ recurso.getFilename() + "\"");
+        return new ResponseEntity<>(recurso, cabecera, HttpStatus.OK);
     }
 
     @Secured({"ROLE_ADMIN"})
