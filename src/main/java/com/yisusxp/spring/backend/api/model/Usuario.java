@@ -1,6 +1,10 @@
 package com.yisusxp.spring.backend.api.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,15 +16,30 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     @Column(unique = true, length = 20)
+    @NotEmpty(message = "No puede ser vacio, favor ingrese el campo")
+    @Size(min = 4, max = 20, message = "debe tener una longitud entre 4 y 20 caracteres")
     private String username;
-    @Column(length = 60)
+    
+    @Column(nullable = false, length = 60) // por ser encriptado y por ello mas grande que por form
     private String password;
-    @Column
+    
+    @Column(nullable = false)
     private Boolean enabled;
+    
+    @Column(nullable = false)
+    @NotEmpty(message = "No puede ser vacio, favor ingrese el campo")
+    @Size(min = 4, max = 12, message = "debe tener una longitud entre 4 y 12 caracteres")
     private String nombre;
+    
+    @Column(nullable = false)
+    @NotEmpty(message = "No puede ser vacio, favor ingrese el campo")
     private String apellido;
-    @Column(unique = true)
+    
+    @Column(nullable = false, unique = true)
+    @NotEmpty(message = "No puede ser vacio, favor ingrese el campo")
+    @Email(message = "debe tener un formato de email valido")
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

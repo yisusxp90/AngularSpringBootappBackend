@@ -6,6 +6,8 @@ import com.yisusxp.spring.backend.api.service.IUsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -47,4 +49,37 @@ public class UsuarioServiceImpl implements UserDetailsService, IUsuarioService {
     public Usuario findByUsername(String username) {
         return iUsuarioRepository.findByUsername(username);
     }
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Usuario> findAll() {
+		return (List<Usuario>) iUsuarioRepository.findAll();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Page<Usuario> findAll(Pageable pageable) {		
+		return iUsuarioRepository.findAll(pageable);
+	}
+
+	@Override
+	@Transactional
+	public Usuario save(Usuario usuario) {
+		if (usuario.getEnabled()==null) 
+			usuario.setEnabled(Boolean.FALSE);
+		
+		return iUsuarioRepository.save(usuario);
+	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		iUsuarioRepository.deleteById(id);;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Usuario findById(Long id) {
+		return iUsuarioRepository.findById(id).orElse(null);
+	}
 }

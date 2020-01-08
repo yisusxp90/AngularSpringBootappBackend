@@ -50,7 +50,7 @@ public class ClienteRestController {
 
 
     @GetMapping("/listar/page/{page}")
-    public Page<Cliente> listadoClientesPAginado(@PathVariable Integer page) {
+    public Page<Cliente> listadoClientesPaginado(@PathVariable Integer page) {
         return iClienteService.findAll(PageRequest.of(page, 4));
     }
 
