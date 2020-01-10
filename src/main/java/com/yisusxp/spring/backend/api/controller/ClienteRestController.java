@@ -51,7 +51,7 @@ public class ClienteRestController {
 
     @GetMapping("/listar/page/{page}")
     public Page<Cliente> listadoClientesPaginado(@PathVariable Integer page) {
-        return iClienteService.findAll(PageRequest.of(page, 4));
+        return iClienteService.findAll(PageRequest.of(page, 5));
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})

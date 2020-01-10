@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -58,13 +59,12 @@ public class UsuarioRestController {
 
     @GetMapping("/usuarios/page/{page}")
     public Page<Usuario> listadoUsuariosPaginado(@PathVariable Integer page) {
-        return iUsuarioService.findAll(PageRequest.of(page, 4));
+        return iUsuarioService.findAll(PageRequest.of(page, 5, Sort.by("enabled").ascending()));
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping("/usuario/{id}")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> buscarUsuario(@PathVariable Long id) {
-
         Map<String, Object> response = new HashMap<>();
         Usuario usuario;
         try {
@@ -158,6 +158,8 @@ public class UsuarioRestController {
             usuarioBD.setNombre(usuario.getNombre());
             usuarioBD.setApellido(usuario.getApellido());
             usuarioBD.setEmail(usuario.getEmail());
+            usuarioBD.setEnabled(usuario.getEnabled()); // TODO disable if not user changes it
+            usuarioBD.setPassword(iUsuarioService.encode(usuario.getPassword()));
             usuarioActualizado = iUsuarioService.save(usuarioBD);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error Actualizando Usuario");

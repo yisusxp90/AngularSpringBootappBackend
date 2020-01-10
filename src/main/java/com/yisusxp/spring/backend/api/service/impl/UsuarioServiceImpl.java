@@ -1,5 +1,6 @@
 package com.yisusxp.spring.backend.api.service.impl;
 
+import com.yisusxp.spring.backend.api.auth.SpringSecurityConfig;
 import com.yisusxp.spring.backend.api.model.Usuario;
 import com.yisusxp.spring.backend.api.repository.IUsuarioRepository;
 import com.yisusxp.spring.backend.api.service.IUsuarioService;
@@ -8,12 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,9 @@ public class UsuarioServiceImpl implements UserDetailsService, IUsuarioService {
 
     @Autowired
     IUsuarioRepository iUsuarioRepository;
+     
+    @Autowired
+    SpringSecurityConfig springSecurityConfig;
 
     private final Logger logger = LoggerFactory.getLogger(UsuarioServiceImpl.class);
 
@@ -71,6 +77,16 @@ public class UsuarioServiceImpl implements UserDetailsService, IUsuarioService {
 		return iUsuarioRepository.save(usuario);
 	}
 
+	public String encode(String passwordClear) {
+		String passwordBCrypt = null;
+		
+		if (passwordClear != null)	
+		{
+			passwordBCrypt = this.springSecurityConfig.passwordEncoder().encode(passwordClear);			
+		}
+		return passwordBCrypt;
+	}
+	
 	@Override
 	@Transactional
 	public void delete(Long id) {
@@ -82,4 +98,5 @@ public class UsuarioServiceImpl implements UserDetailsService, IUsuarioService {
 	public Usuario findById(Long id) {
 		return iUsuarioRepository.findById(id).orElse(null);
 	}
+
 }

@@ -13,10 +13,13 @@ public interface IUsuarioService {
 	    public Page<Usuario> findAll(Pageable pageable);
 
 	    public Usuario save(Usuario cliente);
+	    
+	    public String encode(String passwdClear);
 
 	    public void delete(Long id);
 	    
 	    public Usuario findById(Long id);
 
     public Usuario findByUsername(String username);
+    
 }
