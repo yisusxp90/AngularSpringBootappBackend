@@ -9,14 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +45,7 @@ public class UsuarioServiceImpl implements UserDetailsService, IUsuarioService {
                 .map(role -> new SimpleGrantedAuthority(role.getNombre()))
                 .peek(authority -> logger.info("Role: " + authority.getAuthority()))
                 .collect(Collectors.toList());
-        return new User(username, usuario.getPassword(), usuario.getEnabled(), true, true, true, authorities);
+        return new User(username, usuario.getPassword(), true, true, true, true, authorities);
     }
 
     @Override
@@ -70,10 +68,7 @@ public class UsuarioServiceImpl implements UserDetailsService, IUsuarioService {
 
 	@Override
 	@Transactional
-	public Usuario save(Usuario usuario) {
-		if (usuario.getEnabled()==null) 
-			usuario.setEnabled(Boolean.FALSE);
-		
+	public Usuario save(Usuario usuario) {	
 		return iUsuarioRepository.save(usuario);
 	}
 

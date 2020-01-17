@@ -22,11 +22,11 @@ public class Usuario implements Serializable {
     @Size(min = 4, max = 20, message = "debe tener una longitud entre 4 y 20 caracteres")
     private String username;
     
-    @Column(nullable = false, length = 60) // por ser encriptado y por ello mas grande que por form
+    @Column(nullable = false, length = 60) // por ser encriptado y por ello mas grande que desde form
     private String password;
     
     @Column(nullable = false)
-    private Boolean enabled;
+    private Boolean enabled = Boolean.TRUE;
     
     @Column(nullable = false)
     @NotEmpty(message = "No puede ser vacio, favor ingrese el campo")

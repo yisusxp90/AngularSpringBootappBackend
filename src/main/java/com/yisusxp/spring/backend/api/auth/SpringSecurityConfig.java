@@ -44,8 +44,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+        	//.antMatchers("/api/usuario/crear").permitAll()
             .anyRequest().authenticated()
-            .and()
+            .and()            
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

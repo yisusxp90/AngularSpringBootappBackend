@@ -29,7 +29,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yisusxp.spring.backend.api.model.Role;
 import com.yisusxp.spring.backend.api.model.Usuario;
+import com.yisusxp.spring.backend.api.service.IRolService;
 import com.yisusxp.spring.backend.api.service.IUploadFileService;
 import com.yisusxp.spring.backend.api.service.IUsuarioService;
 
@@ -95,6 +97,7 @@ public class UsuarioRestController {
             response.put("errors", errors);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
+        usuario.setPassword(iUsuarioService.encode(usuario.getPassword()));
         try {
             user = iUsuarioService.save(usuario);
         } catch (DataAccessException e) {
@@ -158,8 +161,12 @@ public class UsuarioRestController {
             usuarioBD.setNombre(usuario.getNombre());
             usuarioBD.setApellido(usuario.getApellido());
             usuarioBD.setEmail(usuario.getEmail());
-            usuarioBD.setEnabled(usuario.getEnabled()); // TODO disable if not user changes it
-            usuarioBD.setPassword(iUsuarioService.encode(usuario.getPassword()));
+            usuarioBD.setEnabled(usuario.getEnabled());
+            
+            if (usuario.getPassword() != null && !"".equals(usuario.getPassword()))
+            	usuarioBD.setPassword(iUsuarioService.encode(usuario.getPassword()));
+            
+            usuarioBD.setRoles(usuario.getRoles());
             usuarioActualizado = iUsuarioService.save(usuarioBD);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error Actualizando Usuario");
@@ -172,43 +179,4 @@ public class UsuarioRestController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-	/*
-	 * @Secured({"ROLE_ADMIN", "ROLE_USER"})
-	 * 
-	 * @PostMapping("/usuario/upload") public ResponseEntity<?>
-	 * subirArchivo(@RequestParam("archivo") MultipartFile
-	 * archivo, @RequestParam("id") Long id) { Map<String, Object> response = new
-	 * HashMap<>(); Usuario clienteBD = null; String nombreArchivo = null; try {
-	 * clienteBD = iUsuarioService.findById(id); if (clienteBD == null) {
-	 * response.put("mensaje", "El cliente con ID: " + id + " no existe en la BD");
-	 * return new ResponseEntity<>(response, HttpStatus.NOT_FOUND); } if
-	 * (!archivo.isEmpty()) { String nombreFotoAnterior = clienteBD.getFoto();
-	 * iUploadFileService.eliminar(nombreFotoAnterior); nombreArchivo =
-	 * iUploadFileService.guardarImagem(archivo); }
-	 * 
-	 * } catch (IOException e) { response.put("mensaje",
-	 * "Error Al subir la imagen"); response.put("errors", e.getMessage()); return
-	 * new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR); }
-	 * 
-	 * clienteBD.setFoto(nombreArchivo); iUsuarioService.save(clienteBD);
-	 * response.put("cliente", clienteBD); response.put("mensaje",
-	 * "Imagen subida exitosamente.");
-	 * 
-	 * return new ResponseEntity<>(response, HttpStatus.CREATED); }
-	 * 
-	 * @GetMapping("/uploads/img/{nombreFoto:.+}") public ResponseEntity<Resource>
-	 * verFoto(@PathVariable String nombreFoto){ Resource recurso = null; try {
-	 * recurso = iUploadFileService.cargar(nombreFoto); } catch
-	 * (MalformedURLException e) { e.printStackTrace(); }
-	 * 
-	 * HttpHeaders cabecera = new HttpHeaders();
-	 * cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "Attachment; filename=\""+
-	 * recurso.getFilename() + "\""); return new ResponseEntity<>(recurso, cabecera,
-	 * HttpStatus.OK); }
-	 * 
-	 * @Secured({"ROLE_ADMIN"})
-	 * 
-	 * @GetMapping("/clientes/regiones") public List<Region> listarRegiones(){
-	 * return iRegionService.findAllRegiones(); }
-	 */
 }
