@@ -132,7 +132,7 @@ public class UsuarioRestController {
     }
 
     @PutMapping("/usuario/actualizar/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> actualizarUsuario(@Valid @RequestBody Usuario usuario, BindingResult result, @PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
@@ -176,7 +176,7 @@ public class UsuarioRestController {
 
         response.put("usuario", usuarioActualizado);
         response.put("mensaje", "Usuario Actualizado exitosamente.");
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
