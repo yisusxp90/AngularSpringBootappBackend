@@ -37,8 +37,9 @@ public class UploadFileServiceImpl implements IUploadFileService {
     }
 
     @Override
-    public String guardarImagem(MultipartFile archivo) throws IOException {
+    public String guardarImagen(MultipartFile archivo) throws IOException {
         String nombreArchivo = UUID.randomUUID().toString() + "_" +archivo.getOriginalFilename().replace(" ", " ");
+        this.existsUploadFolderOrCreate();
         Path ruta = getPath(nombreArchivo);
         log.info(ruta.toString());
         Files.copy(archivo.getInputStream(), ruta, StandardCopyOption.REPLACE_EXISTING);
@@ -58,6 +59,14 @@ public class UploadFileServiceImpl implements IUploadFileService {
         return false;
     }
 
+    private void existsUploadFolderOrCreate()
+    {
+    	File folder = new File(System.getProperty("user.dir")+File.separator+UPLOADS);
+		
+    	if ( !folder.exists() )
+    		folder.mkdir();
+    }
+    
     @Override
     public Path getPath(String nombreFoto) {
         return Paths.get(UPLOADS).resolve(nombreFoto).toAbsolutePath();
